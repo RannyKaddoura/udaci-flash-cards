@@ -17,11 +17,11 @@ export default class DeckList extends Component {
   }
 
   render() {
-    console.log(this.state.decks)
+    const { decks } = this.state;
     return (
       <View>
         <FlatList
-          data={this.state.decks}
+          data={Object.keys(decks).map((key) => (decks[key]))}
           renderItem={({item}) => {
             return (<Text>{item.title}</Text>);
           }}
