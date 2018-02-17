@@ -4,7 +4,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import DeckList from '../deck/DeckList';
 import AddDeck from '../deck/AddDeck';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import { gray, white } from '../utils/colors';
+import { blue, darkGray, gray, white } from '../utils/colors'
 
 const Navigation = TabNavigator(
   {
@@ -12,7 +12,7 @@ const Navigation = TabNavigator(
       screen: DeckList,
       navigationOptions: {
         tabBarLabel: 'Decks',
-        tabBarIcon: ({tintColor}) => <Ionicons name="ios-list-outline" size={30} color={white} />
+        tabBarIcon: ({tintColor}) => <Ionicons name="ios-list-outline" size={30} color={tintColor} />
       }
     },
     AddDeck : {
@@ -28,10 +28,11 @@ const Navigation = TabNavigator(
       header: null
     },
     tabBarOptions: {
-      activeTintColor: white,
+      activeTintColor: blue,
+      inactiveTintColor: darkGray,
       style: {
         height: 56,
-        backgroundColor: gray,
+        backgroundColor: white,
         shadowColor: 'rgba(0, 0, 0, 0.24)',
         shadowOffset: {
           width: 0,
@@ -41,7 +42,8 @@ const Navigation = TabNavigator(
         shadowOpacity: 1
       },
       labelStyle: {
-        fontSize: 14
+        fontSize: 14,
+        fontWeight: 'bold'
       }
     }
   }
