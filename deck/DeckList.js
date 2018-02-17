@@ -25,6 +25,7 @@ export default class DeckList extends Component {
           renderItem={({item}) => {
             return (<Text>{item.title}</Text>);
           }}
+          keyExtractor={(item, index) => (index)}
         />
       </View>
     );
