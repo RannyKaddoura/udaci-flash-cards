@@ -1,6 +1,6 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native'
 
-export const DECKS_STORAGE_KEY = 'flashcards:decks';
+export const DECKS_STORAGE_KEY = 'flashcards:decks'
 
 function setDummyData() {
   const decks = [
@@ -27,15 +27,15 @@ function setDummyData() {
         }
       ]
     }
-  ];
-  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
-  return decks;
+  ]
+  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
+  return decks
 }
 
 export function provideDecks(result) {
   if (result === null) {
-    return setDummyData();
+    return setDummyData()
   }
 
-  return JSON.parse(result);
+  return JSON.parse(result)
 }

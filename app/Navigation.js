@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { TabNavigator, StackNavigator } from 'react-navigation';
-import DeckList from '../deck/DeckList';
-import AddDeck from '../deck/AddDeck';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import React, { Component } from 'react'
+import { View, Text } from 'react-native'
+import { TabNavigator, StackNavigator } from 'react-navigation'
+import DeckList from '../deck/DeckList'
+import AddDeck from '../deck/AddDeck'
+import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { blue, darkGray, gray, white } from '../utils/colors'
 
 const Navigation = TabNavigator(
@@ -12,14 +12,18 @@ const Navigation = TabNavigator(
       screen: DeckList,
       navigationOptions: {
         tabBarLabel: 'Decks',
-        tabBarIcon: ({tintColor}) => <Ionicons name="ios-list-outline" size={30} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-list-outline" size={30} color={tintColor} />
+        )
       }
     },
-    AddDeck : {
+    AddDeck: {
       screen: AddDeck,
       navigationOptions: {
         tabBarLabel: 'Add Deck',
-        tabBarIcon: ({tintColor}) => <FontAwesome name="plus-square" size={30} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <FontAwesome name="plus-square" size={30} color={tintColor} />
+        )
       }
     }
   },
@@ -47,6 +51,6 @@ const Navigation = TabNavigator(
       }
     }
   }
-);
+)
 
-export default Navigation;
+export default Navigation
