@@ -15,9 +15,7 @@ export function addDeck(deck) {
     })
     .then(result => {
       result[deck.title] = deck
+      AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(result))
       return result
     })
-    .then(result =>
-      AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(result))
-    )
 }

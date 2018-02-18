@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Platform } from 'react-native'
+import { View, Text, Platform, TouchableOpacity } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import DeckList from '../deck/DeckList'
 import AddDeck from '../deck/AddDeck'
@@ -18,12 +18,16 @@ const Decks = StackNavigator(
           <Ionicons name="ios-list-outline" size={30} color={tintColor} />
         ),
         header: () => {
-          return Platform.OS == 'ios' ? (
+          return Platform.OS === 'ios' ? (
             <Header
               outerContainerStyles={{ height: 65 }}
               backgroundColor={blue}
               centerComponent={
-                <Text style={{ color: white, fontSize: 16, fontWeight: 'bold' }}>Mobile Flashcards</Text>
+                <Text
+                  style={{ color: white, fontSize: 16, fontWeight: 'bold' }}
+                >
+                  Mobile Flashcards
+                </Text>
               }
             />
           ) : null
@@ -33,9 +37,20 @@ const Decks = StackNavigator(
     Deck: {
       screen: Deck,
       navigationOptions: ({ navigation }) => {
-        return Platform.OS === 'ios'
-          ? { title: navigation.state.params.title }
-          : { header: null }
+        if (Platform.OS === 'ios') {
+          return {
+            title: navigation.state.params.title,
+            headerRight: <TouchableOpacity style={{marginRight: 10}}
+              onPress={() => {
+                navigation.goBack()
+              }}
+            >
+              <FontAwesome color={white} name="edit" size={26} />
+            </TouchableOpacity>
+          }
+        }
+
+        return { header: null }
       }
     }
   },

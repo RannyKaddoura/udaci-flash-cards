@@ -10,7 +10,9 @@ import {
   Keyboard
 } from 'react-native'
 import { blue, gray, red, white } from '../utils/colors'
-import { addDeck } from '../utils/api'
+import { addDeck, fetchDecks } from '../utils/api'
+import { receiveDecks } from './DeckActions'
+import { connect } from 'react-redux'
 
 function SubmitBtn({ onPress }) {
   return (
@@ -25,7 +27,7 @@ function SubmitBtn({ onPress }) {
   )
 }
 
-export default class AddDeck extends Component {
+class AddDeck extends Component {
   state = {
     title: '',
     valid: true
@@ -42,11 +44,12 @@ export default class AddDeck extends Component {
         questions: []
       }
 
-      addDeck(newDeck).then(() => {
+      addDeck(newDeck).then((decks) => {
         this.setState({ title: '' })
         this._textInput.setNativeProps({ text: '' })
         Keyboard.dismiss()
-        this.props.navigation.navigate('DeckList')
+        this.props.dispatch(receiveDecks(decks))
+        this.props.navigation.goBack()
       })
     }
   }
@@ -80,6 +83,8 @@ export default class AddDeck extends Component {
     )
   }
 }
+
+export default connect()(AddDeck)
 
 const styles = StyleSheet.create({
   container: {
