@@ -2,7 +2,8 @@ import React from 'react'
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import Navigation from './app/Navigation'
 import { Constants } from 'expo'
-import { blue } from './utils/colors'
+import { blue, white } from './utils/colors'
+import { Header } from 'react-native-elements'
 
 function FlashcardsStatusBar({ backgroundColor, ...props }) {
   return (
@@ -17,6 +18,11 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <FlashcardsStatusBar backgroundColor={blue} barStyle="light-content" />
+        <Header
+          outerContainerStyles={styles.header}
+          backgroundColor={blue}
+          centerComponent={<Text style={{color:white}}>Mobile Flashcards</Text>}
+        />
         <Navigation />
       </View>
     )
@@ -27,5 +33,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff'
+  },
+  header: {
+    height: 45
   }
 })
