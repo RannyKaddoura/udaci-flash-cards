@@ -6,7 +6,8 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from 'react-native'
 import { blue, gray, red, white } from '../utils/colors'
 import { addDeck } from '../utils/api'
@@ -31,22 +32,23 @@ export default class AddDeck extends Component {
   }
 
   submit = () => {
-    const { valid, title } = this.state
-    //validat input
-    this.setState({ valid: !(title.length <= 3) })
+    const valid = !(this.state.title.length < 3);
+    //validate input
+    this.setState({ valid })
 
     if (valid) {
       const newDeck = {
-        title,
+        title: this.state.title,
         questions: []
       }
 
-      addDeck(newDeck).then((result) => {
+      addDeck(newDeck).then(() => {
+        this.setState({ title: '' })
+        this._textInput.setNativeProps({ text: '' })
+        Keyboard.dismiss()
         this.props.navigation.navigate('DeckList')
       })
     }
-
-    console.log(this.state)
   }
 
   handleTitle = text => {
@@ -65,6 +67,7 @@ export default class AddDeck extends Component {
           </Text>
         )}
         <TextInput
+          ref={component => this._textInput = component}
           style={valid ? styles.input : [styles.input, { borderColor: red }]}
           underlineColorAndroid="transparent"
           placeholder="Title"
