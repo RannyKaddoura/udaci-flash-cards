@@ -32,7 +32,7 @@ export default class AddDeck extends Component {
   }
 
   submit = () => {
-    const valid = !(this.state.title.length < 3);
+    const valid = !(this.state.title.length < 3)
     //validate input
     this.setState({ valid })
 
@@ -67,7 +67,7 @@ export default class AddDeck extends Component {
           </Text>
         )}
         <TextInput
-          ref={component => this._textInput = component}
+          ref={component => (this._textInput = component)}
           style={valid ? styles.input : [styles.input, { borderColor: red }]}
           underlineColorAndroid="transparent"
           placeholder="Title"
