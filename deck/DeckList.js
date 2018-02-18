@@ -13,8 +13,11 @@ import { receiveDecks } from './DeckActions'
 import { connect } from 'react-redux'
 
 class DeckList extends Component {
-
   componentDidMount() {
+    this.fetchDecks()
+  }
+
+  fetchDecks = () => {
     fetchDecks().then(decks => {
       this.props.dispatch(receiveDecks(decks))
     })
@@ -51,10 +54,17 @@ class DeckList extends Component {
 
   render() {
     const { decks } = this.props
+
+    const data = Object.keys(decks).map(key => decks[key])
+
+    if (data.length === 0) {
+      return <Text style={styles.item}>No Decks, start by adding new ones</Text>
+    }
+
     return (
       <View style={styles.list}>
         <FlatList
-          data={Object.keys(decks).map(key => decks[key])}
+          data={data}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index}
         />
@@ -63,8 +73,8 @@ class DeckList extends Component {
   }
 }
 
-const mapStateToProps = (decks) => {
-  return decks;
+const mapStateToProps = decks => {
+  return decks
 }
 export default connect(mapStateToProps)(DeckList)
 
@@ -74,7 +84,6 @@ const styles = StyleSheet.create({
     backgroundColor: white
   },
   item: {
-    flex: 1,
     backgroundColor: white,
     padding: 15,
     marginLeft: 10,

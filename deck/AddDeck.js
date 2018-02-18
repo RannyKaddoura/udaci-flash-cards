@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native'
 import { blue, gray, red, white } from '../utils/colors'
+import { addDeck } from '../utils/api'
 
 function SubmitBtn({ onPress }) {
   return (
@@ -30,8 +31,20 @@ export default class AddDeck extends Component {
   }
 
   submit = () => {
+    const { valid, title } = this.state
     //validat input
-    this.setState({ valid: !(this.state.title.length <= 3) })
+    this.setState({ valid: !(title.length <= 3) })
+
+    if (valid) {
+      const newDeck = {
+        title,
+        questions: []
+      }
+
+      addDeck(newDeck).then((result) => {
+        this.props.navigation.navigate('DeckList')
+      })
+    }
 
     console.log(this.state)
   }
