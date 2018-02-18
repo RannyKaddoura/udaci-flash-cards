@@ -40,13 +40,16 @@ const Decks = StackNavigator(
         if (Platform.OS === 'ios') {
           return {
             title: navigation.state.params.title,
-            headerRight: <TouchableOpacity style={{marginRight: 10}}
-              onPress={() => {
-                navigation.goBack()
-              }}
-            >
-              <FontAwesome color={white} name="edit" size={26} />
-            </TouchableOpacity>
+            headerRight: (
+              <TouchableOpacity
+                style={{ marginRight: 10 }}
+                onPress={() => {
+                  navigation.goBack()
+                }}
+              >
+                <FontAwesome color={white} name="edit" size={26} />
+              </TouchableOpacity>
+            )
           }
         }
 

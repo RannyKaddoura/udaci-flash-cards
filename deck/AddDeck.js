@@ -28,6 +28,7 @@ function SubmitBtn({ onPress }) {
 }
 
 class AddDeck extends Component {
+
   state = {
     title: '',
     valid: true
