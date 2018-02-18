@@ -1,15 +1,59 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import DeckList from '../deck/DeckList'
 import AddDeck from '../deck/AddDeck'
+import Deck from '../deck/Deck'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { blue, darkGray, gray, white } from '../utils/colors'
+import { Header } from 'react-native-elements'
 
-const Navigation = TabNavigator(
+const Decks = StackNavigator(
   {
     DeckList: {
       screen: DeckList,
+      navigationOptions: {
+        tabBarLabel: 'Decks',
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-list-outline" size={30} color={tintColor} />
+        ),
+        header: () => {
+          return Platform.OS == 'ios' ? (
+            <Header
+              outerContainerStyles={{ height: 65 }}
+              backgroundColor={blue}
+              centerComponent={
+                <Text style={{ color: white, fontSize: 16, fontWeight: 'bold' }}>Mobile Flashcards</Text>
+              }
+            />
+          ) : null
+        }
+      }
+    },
+    Deck: {
+      screen: Deck,
+      navigationOptions: ({ navigation }) => {
+        return Platform.OS === 'ios'
+          ? { title: navigation.state.params.title }
+          : { header: null }
+      }
+    }
+  },
+  {
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: blue,
+        height: 45
+      }
+    }
+  }
+)
+
+const Navigation = TabNavigator(
+  {
+    Decks: {
+      screen: Decks,
       navigationOptions: {
         tabBarLabel: 'Decks',
         tabBarIcon: ({ tintColor }) => (
@@ -31,6 +75,7 @@ const Navigation = TabNavigator(
     navigationOptions: {
       header: null
     },
+    swipeEnabled: false,
     tabBarOptions: {
       activeTintColor: blue,
       inactiveTintColor: darkGray,
