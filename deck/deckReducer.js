@@ -5,12 +5,12 @@ export default function decks(state = {}, action){
     case RECEIVE_DECKS:
       return {
         ...state,
-        ...action.entries
+        ...action.decks
       };
     case ADD_DECK:
       return {
         ...state,
-        ...action.entry
+        ...action.deck
       };
     default:
       return state;

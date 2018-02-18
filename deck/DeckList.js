@@ -3,23 +3,20 @@ import {
   View,
   Text,
   FlatList,
-  Platform,
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
-import { SearchBar } from 'react-native-elements'
 import { fetchDecks } from '../utils/api'
-import { blue, darkGray, gray, lightGray, white } from '../utils/colors'
+import { darkGray, gray, lightGray, white } from '../utils/colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { receiveDecks } from './DeckActions'
+import { connect } from 'react-redux'
 
-export default class DeckList extends Component {
-  state = {
-    decks: {}
-  }
+class DeckList extends Component {
 
   componentDidMount() {
     fetchDecks().then(decks => {
-      this.setState({ decks })
+      this.props.dispatch(receiveDecks(decks))
     })
   }
 
@@ -53,7 +50,7 @@ export default class DeckList extends Component {
   }
 
   render() {
-    const { decks } = this.state
+    const { decks } = this.props
     return (
       <View style={styles.list}>
         <FlatList
@@ -65,6 +62,11 @@ export default class DeckList extends Component {
     )
   }
 }
+
+const mapStateToProps = (decks) => {
+  return decks;
+}
+export default connect(mapStateToProps)(DeckList)
 
 const styles = StyleSheet.create({
   list: {

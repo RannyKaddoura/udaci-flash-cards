@@ -1,6 +1,6 @@
 import { ADD_DECK, RECEIVE_DECKS } from '../app/types'
 
-export function receiveDeck(decks) {
+export function receiveDecks(decks) {
   return {
     type: RECEIVE_DECKS,
     decks
