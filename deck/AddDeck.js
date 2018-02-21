@@ -1,34 +1,12 @@
 import React, { Component } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Platform,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Keyboard
-} from 'react-native'
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
 import { blue, gray, red, white } from '../utils/colors'
-import { addDeck, fetchDecks } from '../utils/api'
+import { addDeck } from '../utils/api'
 import { receiveDecks } from './DeckActions'
 import { connect } from 'react-redux'
-
-function SubmitBtn({ onPress }) {
-  return (
-    <TouchableOpacity
-      style={
-        Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn
-      }
-      onPress={onPress}
-    >
-      <Text style={styles.submitBtnText}>Submit</Text>
-    </TouchableOpacity>
-  )
-}
+import { Button } from '../app/Button'
 
 class AddDeck extends Component {
-
   state = {
     title: '',
     valid: true
@@ -45,7 +23,7 @@ class AddDeck extends Component {
         questions: []
       }
 
-      addDeck(newDeck).then((decks) => {
+      addDeck(newDeck).then(decks => {
         this.setState({ title: '' })
         this._textInput.setNativeProps({ text: '' })
         Keyboard.dismiss()
@@ -79,7 +57,7 @@ class AddDeck extends Component {
           autoCapitalize="none"
           onChangeText={this.handleTitle}
         />
-        <SubmitBtn onPress={this.submit} />
+        <Button title="Submit" onPress={this.submit} />
       </KeyboardAvoidingView>
     )
   }
@@ -99,31 +77,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     borderColor: gray,
     borderWidth: 1
-  },
-  iosSubmitBtn: {
-    backgroundColor: blue,
-    padding: 10,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40
-  },
-  androidSubmitBtn: {
-    backgroundColor: blue,
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
-    height: 45,
-    borderRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 40,
-    marginRight: 40
-  },
-  submitBtnText: {
-    color: white,
-    fontSize: 22,
-    textAlign: 'center'
   },
   label: {
     fontWeight: 'bold',
