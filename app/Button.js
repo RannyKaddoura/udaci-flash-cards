@@ -4,24 +4,24 @@ import { blue, gray, red, white } from '../utils/colors'
 import { Platform, StyleSheet } from 'react-native'
 
 export function Button(props) {
+  const { outline, buttonStyle = {}, ...rest } = props
   return (
     <NativeButton
       buttonStyle={[
-        styles.button,
+        !outline ? styles.button : styles.buttonOutline,
         Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn,
       ]}
       textStyle={styles.btnText}
+      color={!outline ? white : blue}
       fontWeight="bold"
-      {...props}
+      {...rest}
     />
   )
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: blue,
-    height: 45,
-    padding: 10
+    backgroundColor: blue
   },
   iosBtn: {
     borderRadius: 7
@@ -30,7 +30,11 @@ const styles = StyleSheet.create({
     borderRadius: 2
   },
   btnText: {
-    color: white,
     fontSize: 22
+  },
+  buttonOutline: {
+    backgroundColor: white,
+    borderColor: blue,
+    borderWidth: 1
   }
 })

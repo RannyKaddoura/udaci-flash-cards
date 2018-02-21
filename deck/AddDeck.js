@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
-import { blue, gray, red, white } from '../utils/colors'
+import { gray, red, white } from '../utils/colors'
 import { addDeck } from '../utils/api'
 import { receiveDecks } from './DeckActions'
 import { connect } from 'react-redux'
@@ -57,7 +57,7 @@ class AddDeck extends Component {
           autoCapitalize="none"
           onChangeText={this.handleTitle}
         />
-        <Button title="Submit" onPress={this.submit} />
+        <Button outline={false} title="Submit" onPress={this.submit} />
       </KeyboardAvoidingView>
     )
   }
