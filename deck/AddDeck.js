@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput
+} from 'react-native'
 import { gray, red, white } from '../utils/colors'
 import { addDeck } from '../utils/api'
 import { receiveDecks } from './DeckActions'
@@ -33,7 +39,7 @@ class AddDeck extends Component {
     }
   }
 
-  handleTitle = text => {
+  handleInput = text => {
     this.setState({ title: text })
   }
 
@@ -55,7 +61,7 @@ class AddDeck extends Component {
           placeholder="Title"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={this.handleTitle}
+          onChangeText={this.handleInput}
         />
         <Button outline={false} title="Submit" onPress={this.submit} />
       </KeyboardAvoidingView>

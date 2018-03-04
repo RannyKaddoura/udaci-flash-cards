@@ -7,6 +7,22 @@ import Deck from '../deck/Deck'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { blue, darkGray, gray, white } from '../utils/colors'
 import { Header } from 'react-native-elements'
+import AddCard from '../deck/card/AddCard'
+
+function IosBackButton(props) {
+  const navigation = props
+
+  return (
+    <TouchableOpacity
+      style={{ marginRight: 10 }}
+      onPress={() => {
+        navigation.goBack()
+      }}
+    >
+      <FontAwesome color={white} name="edit" size={26} />
+    </TouchableOpacity>
+  )
+}
 
 const Decks = StackNavigator(
   {
@@ -40,16 +56,19 @@ const Decks = StackNavigator(
         if (Platform.OS === 'ios') {
           return {
             title: navigation.state.params.title,
-            headerRight: (
-              <TouchableOpacity
-                style={{ marginRight: 10 }}
-                onPress={() => {
-                  navigation.goBack()
-                }}
-              >
-                <FontAwesome color={white} name="edit" size={26} />
-              </TouchableOpacity>
-            )
+            headerRight: <IosBackButton navigation={navigation} />
+          }
+        }
+
+        return { header: null }
+      }
+    },
+    AddCard: {
+      screen: AddCard,
+      navigationOptions: ({ navigation }) => {
+        if (Platform.OS === 'ios') {
+          return {
+            title: 'Add Card'
           }
         }
 

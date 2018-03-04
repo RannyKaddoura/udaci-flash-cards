@@ -15,10 +15,20 @@ class Deck extends Component {
           <Text style={{ fontWeight: 'bold', fontSize: 40, color: darkGray }}>
             {deck.title}
           </Text>
-          <Text style={{ color: gray, fontSize: 24 }}>{deck.questions.length} cards</Text>
+          <Text style={{ color: gray, fontSize: 24 }}>
+            {deck.questions.length} cards
+          </Text>
         </View>
         <View>
-          <NativeButton buttonStyle={{marginBottom: 10}} outline={true} color={darkGray} title="Add Card" />
+          <NativeButton
+            buttonStyle={{ marginBottom: 10 }}
+            outline={true}
+            color={darkGray}
+            title="Add Card"
+            onPress={() => {
+              this.props.navigation.navigate('AddCard', { deck })
+            }}
+          />
           <Button title="Start Quiz" />
         </View>
       </View>
@@ -42,5 +52,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     justifyContent: 'space-around'
-  },
+  }
 })
