@@ -29,7 +29,12 @@ class Deck extends Component {
               this.props.navigation.navigate('AddCard', { deck })
             }}
           />
-          <Button title="Start Quiz" />
+          <Button
+            title="Start Quiz"
+            onPress={() => {
+              this.props.navigation.navigate('Quiz', { deck })
+            }}
+          />
         </View>
       </View>
     )

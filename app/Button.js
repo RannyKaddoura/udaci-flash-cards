@@ -10,6 +10,7 @@ export function Button(props) {
       buttonStyle={[
         !outline ? styles.button : styles.buttonOutline,
         Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn,
+        buttonStyle
       ]}
       textStyle={styles.btnText}
       color={!outline ? white : blue}

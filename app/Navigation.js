@@ -8,6 +8,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { blue, darkGray, gray, white } from '../utils/colors'
 import { Header } from 'react-native-elements'
 import AddCard from '../deck/card/AddCard'
+import Quiz from '../quiz/Quiz'
 
 function IosBackButton(props) {
   const navigation = props
@@ -55,8 +56,7 @@ const Decks = StackNavigator(
       navigationOptions: ({ navigation }) => {
         if (Platform.OS === 'ios') {
           return {
-            title: navigation.state.params.title,
-            headerRight: <IosBackButton navigation={navigation} />
+            title: navigation.state.params.title
           }
         }
 
@@ -70,6 +70,16 @@ const Decks = StackNavigator(
           return {
             title: 'Add Card'
           }
+        }
+
+        return { header: null }
+      }
+    },
+    Quiz: {
+      screen: Quiz,
+      navigationOptions: ({ navigation }) => {
+        if (Platform.OS === 'ios') {
+          return {}
         }
 
         return { header: null }
