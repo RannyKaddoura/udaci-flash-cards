@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -6,21 +6,25 @@ import {
   Text,
   TextInput
 } from 'react-native'
-import { gray, red, white } from '../utils/colors'
+import { red, white } from '../utils/colors'
 import { addDeck } from '../utils/api'
 import { receiveDecks } from './DeckActions'
 import { connect } from 'react-redux'
 import { Button } from '../app/Button'
+import ValidationComponent from 'react-native-form-validator'
+import { DefaultStyles } from '../utils/styles'
 
-class AddDeck extends Component {
+class AddDeck extends ValidationComponent {
   state = {
     title: '',
     valid: true
   }
 
   submit = () => {
-    const valid = !(this.state.title.length < 3)
-    //validate input
+    const valid = this.validate({
+      title: { minlength: 3, required: true }
+    })
+
     this.setState({ valid })
 
     if (valid) {
@@ -39,30 +43,25 @@ class AddDeck extends Component {
     }
   }
 
-  handleInput = text => {
-    this.setState({ title: text })
-  }
-
   render() {
     const { valid } = this.state
 
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <Text style={styles.label}>What is the title of your new deck?</Text>
-        {!valid && (
-          <Text style={styles.errorLabel}>
-            Please insert at least 3 characters
-          </Text>
-        )}
+        <Text style={DefaultStyles.label}>What is the title of your new deck?</Text>
         <TextInput
           ref={component => (this._textInput = component)}
-          style={valid ? styles.input : [styles.input, { borderColor: red }]}
+          onChangeText={title => this.setState({ title })}
+          value={this.state.title}
+          style={
+            valid ? DefaultStyles.input : [DefaultStyles.input, { borderColor: red }]
+          }
           underlineColorAndroid="transparent"
           placeholder="Title"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={this.handleInput}
         />
+        <Text style={DefaultStyles.errorLabel}>{this.getErrorMessages()}</Text>
         <Button outline={false} title="Submit" onPress={this.submit} />
       </KeyboardAvoidingView>
     )
@@ -76,25 +75,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     justifyContent: 'center'
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    paddingLeft: 15,
-    borderColor: gray,
-    borderWidth: 1
-  },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 28,
-    marginLeft: 40,
-    marginRight: 40
-  },
-  errorLabel: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginLeft: 40,
-    marginRight: 40,
-    color: red
   }
 })

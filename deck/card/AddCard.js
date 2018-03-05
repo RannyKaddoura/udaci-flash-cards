@@ -1,18 +1,14 @@
-import React, { Component } from 'react'
-import {
-  Text,
-  KeyboardAvoidingView,
-  StyleSheet,
-  TextInput,
-  Keyboard
-} from 'react-native'
-import { gray, red, white } from '../../utils/colors'
+import React from 'react'
+import { Keyboard, KeyboardAvoidingView, Text, TextInput } from 'react-native'
+import { red } from '../../utils/colors'
 import { Button } from '../../app/Button'
 import { connect } from 'react-redux'
 import { addCardToDeck } from '../../utils/api'
 import { receiveDecks } from '../DeckActions'
+import ValidationComponent from 'react-native-form-validator'
+import { DefaultStyles } from '../../utils/styles'
 
-class AddCard extends Component {
+class AddCard extends ValidationComponent {
   state = {
     valid: true,
     question: '',
@@ -20,60 +16,71 @@ class AddCard extends Component {
   }
 
   submit = () => {
-    const { deck } = this.props
-    const card = {
-      question: this.state.question,
-      answer: this.state.answer
-    }
-    addCardToDeck(deck, card).then(decks => {
-      this.setState({ question: '', answer: '' })
-      this._question.setNativeProps({ text: '' })
-      this._answer.setNativeProps({ text: '' })
-      Keyboard.dismiss()
-      this.props.dispatch(receiveDecks(decks))
-      this.props.navigation.goBack()
+    const valid = this.validate({
+      question: { minlength: 3, required: true },
+      answer: { minlength: 3, required: true }
     })
-  }
 
-  handleInput = (value, stateProp) => {
-    this.setState({
-      [stateProp]: value
-    })
+    this.setState({ valid })
+
+    if (valid) {
+      const card = {
+        question: this.state.question,
+        answer: this.state.answer
+      }
+
+      const { deck } = this.props
+
+      addCardToDeck(deck, card).then(decks => {
+        this.setState({ question: '', answer: '' })
+        this._question.setNativeProps({ text: '' })
+        this._answer.setNativeProps({ text: '' })
+        Keyboard.dismiss()
+        this.props.dispatch(receiveDecks(decks))
+        this.props.navigation.goBack()
+      })
+    }
   }
 
   render() {
-    const { valid } = this.state
-
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        {!valid && (
-          <Text style={styles.errorLabel}>
-            Please insert at least 3 characters
-          </Text>
-        )}
+      <KeyboardAvoidingView behavior="padding" style={DefaultStyles.container}>
         <TextInput
           ref={component => (this._question = component)}
-          style={valid ? styles.input : [styles.input, { borderColor: red }]}
+          style={
+            !this.isFieldInError('question')
+              ? DefaultStyles.input
+              : [DefaultStyles.input, { borderColor: red }]
+          }
           underlineColorAndroid="transparent"
           placeholder="Question"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={text => this.handleInput(text, 'question')}
+          value={this.state.question}
+          onChangeText={question => this.setState({ question })}
         />
-        {!valid && (
-          <Text style={styles.errorLabel}>
-            Please insert at least 3 characters
-          </Text>
-        )}
+        {this.isFieldInError('question') &&
+          this.getErrorsInField('question').map((errorMessage, key) => (
+            <Text key={key} style={DefaultStyles.errorItem}>{errorMessage}</Text>
+          ))}
         <TextInput
           ref={component => (this._answer = component)}
-          style={valid ? styles.input : [styles.input, { borderColor: red }]}
+          value={this.state.answer}
+          style={
+            !this.isFieldInError('answer')
+              ? DefaultStyles.input
+              : [DefaultStyles.input, { borderColor: red }]
+          }
           underlineColorAndroid="transparent"
           placeholder="Answer"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={text => this.handleInput(text, 'answer')}
+          onChangeText={answer => this.setState({ answer })}
         />
+        {this.isFieldInError('answer') &&
+        this.getErrorsInField('answer').map((errorMessage, key) => (
+          <Text key={key} style={DefaultStyles.errorItem}>{errorMessage}</Text>
+        ))}
         <Button outline={false} title="Submit" onPress={this.submit} />
       </KeyboardAvoidingView>
     )
@@ -86,30 +93,3 @@ const mapStateToProps = (state, { navigation }) => {
 }
 
 export default connect(mapStateToProps)(AddCard)
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-    justifyContent: 'center'
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    paddingLeft: 15,
-    borderColor: gray,
-    borderWidth: 1
-  },
-  label: {
-    fontSize: 18,
-    marginLeft: 20,
-    marginRight: 20
-  },
-  errorLabel: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    marginLeft: 40,
-    marginRight: 40,
-    color: red
-  }
-})
