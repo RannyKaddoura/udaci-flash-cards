@@ -5,13 +5,13 @@ import { Button as NativeButton } from 'react-native-elements'
 import { Button } from '../app/Button'
 
 export default function Finished(props) {
-  const { navigation, percentage, deck } = props
+  const { navigation, percentage, deck, restart } = props
 
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center' }}>
         <Text style={{ fontWeight: 'bold', fontSize: 40, color: darkGray }}>
-          { percentage }% Correct
+          {percentage}% Correct
         </Text>
       </View>
       <View>
@@ -26,7 +26,9 @@ export default function Finished(props) {
         />
         <Button
           title="Start Again"
-          onPress={() => navigation.navigate('Quiz', { deck })}
+          onPress={() => {
+            restart()
+          }}
         />
       </View>
     </View>

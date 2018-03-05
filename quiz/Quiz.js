@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { white, green, red, darkGray, gray } from '../utils/colors'
 import { Button } from '../app/Button'
 import Finished from './Finished'
+import { MaterialIcons } from '@expo/vector-icons'
+
+const initialState = {
+  currentQuestion: {},
+  currentQuestionKey: 0,
+  showAnswer: false,
+  correctAnswerCount: 0,
+  finished: false
+}
 
 class Quiz extends Component {
-  state = {
-    currentQuestion: {},
-    currentQuestionKey: 0,
-    showAnswer: false,
-    correctAnswerCount: 0,
-    finished: false
-  }
+
+  state = initialState
 
   /**
    * set fist question as initial if exists
@@ -58,6 +62,10 @@ class Quiz extends Component {
     }
   }
 
+  restart = () => {
+    this.setState(initialState)
+  }
+
   render() {
     const { deck } = this.props.navigation.state.params
     const { navigation } = this.props
@@ -83,6 +91,7 @@ class Quiz extends Component {
           deck={deck}
           navigation={navigation}
           percentage={correctAnswerCount / deck.questions.length * 100}
+          restart={() => this.restart()}
         />
       )
     }
@@ -98,13 +107,22 @@ class Quiz extends Component {
           <Text style={{ color: gray, fontSize: 24 }}>
             {currentQuestionKey + 1} / {deck.questions.length}
           </Text>
+
+          <TouchableOpacity onPress={this.flipCard} style={{ marginTop: 5 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <MaterialIcons name="touch-app" size={14} />
+              <Text style={{ padding: 0 }}>
+                {showAnswer ? ' Question' : ' Answer'}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <View>
           <View>
             <Button
               title="Yes"
               onPress={() => this.submit(true)}
-              buttonStyle={{ backgroundColor: green }}
+              buttonStyle={{ backgroundColor: green, marginBottom: 10 }}
             />
             <Button
               title="No"
@@ -112,7 +130,6 @@ class Quiz extends Component {
               buttonStyle={{ backgroundColor: red }}
             />
           </View>
-          <Button title="Turn around!" onPress={this.flipCard} />
         </View>
       </View>
     )
