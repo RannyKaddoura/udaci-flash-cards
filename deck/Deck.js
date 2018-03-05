@@ -43,11 +43,11 @@ class Deck extends Component {
 }
 
 function mapStateToProps(state, { navigation }) {
-  const { key } = navigation.state.params
-  const decks = Object.keys(state.decks).map(title => state.decks[title])
+  const { title } = navigation.state.params
+  /*const decks = Object.keys(state.decks).map(title => state.decks[title])*/
 
   return {
-    deck: decks[key]
+    deck: state.decks[title]
   }
 }
 
