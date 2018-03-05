@@ -38,7 +38,7 @@ class AddDeck extends ValidationComponent {
         this._textInput.setNativeProps({ text: '' })
         Keyboard.dismiss()
         this.props.dispatch(receiveDecks(decks))
-        this.props.navigation.goBack()
+        this.props.navigation.navigate('DeckList')
       })
     }
   }

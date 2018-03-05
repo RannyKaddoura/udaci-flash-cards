@@ -54,7 +54,9 @@ class DeckList extends Component {
 
   render() {
     const { decks } = this.props
-    const data = Object.keys(decks).map(key => decks[key]).reverse()
+    const data = Object.keys(decks)
+      .map(key => decks[key])
+      .reverse()
 
     if (!data || data.length === 0) {
       return <Text style={styles.item}>No Decks, start by adding new ones</Text>
@@ -62,7 +64,11 @@ class DeckList extends Component {
 
     return (
       <View style={styles.list}>
-        <FlatList data={data} renderItem={this.renderItem} />
+        <FlatList
+          data={data}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index}
+        />
       </View>
     )
   }
