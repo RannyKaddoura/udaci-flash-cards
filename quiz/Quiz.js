@@ -14,7 +14,6 @@ const initialState = {
 }
 
 class Quiz extends Component {
-
   state = initialState
 
   /**
