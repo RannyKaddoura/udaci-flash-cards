@@ -54,7 +54,9 @@ class DeckList extends Component {
 
   render() {
     const { decks } = this.props
-    const data = Object.keys(decks).map(key => decks[key])
+    const data = Object.keys(decks)
+      .map(key => decks[key])
+      .reverse()
 
     if (!data || data.length === 0) {
       return <Text style={styles.item}>No Decks, start by adding new ones</Text>
