@@ -119,12 +119,12 @@ class Quiz extends Component {
         <View>
           <View>
             <Button
-              title="Yes"
+              title="Correct"
               onPress={() => this.submit(true)}
               buttonStyle={{ backgroundColor: green, marginBottom: 10 }}
             />
             <Button
-              title="No"
+              title="Incorrect"
               onPress={() => this.submit(false)}
               buttonStyle={{ backgroundColor: red }}
             />
