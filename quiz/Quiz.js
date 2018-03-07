@@ -4,6 +4,10 @@ import { white, green, red, darkGray, gray } from '../utils/colors'
 import { Button } from '../app/Button'
 import Finished from './Finished'
 import { MaterialIcons } from '@expo/vector-icons'
+import {
+  clearLocalNotifications,
+  setLocalNotification
+} from '../utils/notifications'
 
 const initialState = {
   currentQuestion: {},
@@ -55,6 +59,9 @@ class Quiz extends Component {
     })
 
     if (newKey === deck.questions.length) {
+      clearLocalNotifications()
+        .then(setLocalNotification)
+
       this.setState({
         finished: true
       })

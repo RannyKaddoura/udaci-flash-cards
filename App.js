@@ -6,6 +6,7 @@ import { blue, white } from './utils/colors'
 import reducer from './app/reducers'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { setLocalNotification } from './utils/notifications'
 
 function FlashcardsStatusBar({ backgroundColor, ...props }) {
   return (
@@ -16,6 +17,10 @@ function FlashcardsStatusBar({ backgroundColor, ...props }) {
 }
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>
