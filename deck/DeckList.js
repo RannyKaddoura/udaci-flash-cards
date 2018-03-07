@@ -29,7 +29,6 @@ class DeckList extends Component {
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate('Deck', {
-              key: index,
               title: item.title
             })
           }}
