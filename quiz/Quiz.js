@@ -69,7 +69,11 @@ class Quiz extends Component {
   }
 
   restart = () => {
-    this.setState(initialState)
+    const { deck } = this.props.navigation.state.params
+    this.setState({
+      ...initialState,
+      currentQuestion: deck.questions[0]
+    })
   }
 
   render() {
